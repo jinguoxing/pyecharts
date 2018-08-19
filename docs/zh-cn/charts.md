@@ -1,19 +1,8 @@
-> 图表篇：本篇文档为 pyecharts 的主要配置文档，介绍了关于 pyecharts 的详细配置项。
+> 图表详情篇：本篇文档为 pyecharts 图表详情文档，介绍了关于 pyecharts 各类图表的细节。
 
-* 图形初始化
-* 通用配置项
-    * xyAxis：平面直角坐标系中的 x、y 轴。(Line、Bar、Scatter、EffectScatter、Kline)
-    * dataZoom：dataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。(Line、Bar、Scatter、EffectScatter、Kline、Boxplot)
-    * legend：图例组件。图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。
-    * label：图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
-    * lineStyle：带线图形的线的风格选项(Line、Polar、Radar、Graph、Parallel)
-    * grid3D：3D笛卡尔坐标系组配置项，适用于 3D 图形。（Bar3D, Line3D, Scatter3D)
-    * axis3D：3D 笛卡尔坐标系 X，Y，Z 轴配置项，适用于 3D 图形。（Bar3D, Line3D, Scatter3D)
-    * visualMap：是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）
-    * markLine&markPoint：图形标记组件，用于标记指定的特殊数据，有标记线和标记点两种。（Bar、Line、Kline）
-    * tooltip：提示框组件，用于移动或点击鼠标时弹出数据内容
-    * toolbox：右侧实用工具箱
-* 图表详细
+**图表详细配置请参考 [图表配置篇](zh-cn/charts_configure)**
+
+* 图表详情
     * Bar（柱状图/条形图）
     * Bar3D（3D 柱状图）
     * Boxplot（箱形图）
@@ -37,6 +26,7 @@
     * Scatter（散点图）
     * Scatter3D（3D 散点图）
     * ThemeRiver（主题河流图）
+    * Tree（树图）
     * TreeMap（矩形树图）
     * WordCloud（词云图）
 * 用户自定义
@@ -46,494 +36,6 @@
     * Timeline 类：提供时间线轮播多张图
 * 统一风格
 
-
-# 图形初始化
-图表类初始化所接受的参数（所有类型的图表都一样）。
-
-* title -> str   
-    主标题文本，支持 \n 换行，默认为 ""
-* subtitle -> str  
-    副标题文本，支持 \n 换行，默认为 ""
-* width -> int  
-    画布宽度，默认为 800（px）
-* height -> int  
-    画布高度，默认为 400（px）
-* title_pos -> str/int  
-    标题距离左侧距离，默认为'left'，有'auto', 'left', 'right', 'center'可选，也可为百分比或整数
-* title_top -> str/int  
-    标题距离顶部距离，默认为'top'，有'top', 'middle', 'bottom'可选，也可为百分比或整数
-* title_color -> str  
-    主标题文本颜色，默认为 '#000'
-* subtitle_color -> str  
-    副标题文本颜色，默认为 '#aaa'
-* title_text_size -> int  
-    主标题文本字体大小，默认为 18
-* subtitle_text_size -> int  
-    副标题文本字体大小，默认为 12
-* background_color -> str  
-    画布背景颜色，默认为 '#fff'
-* page_title -> str  
-    指定生成的 html 文件中 `<title>` 标签的值。默认为'Echarts'
-* renderer -> str  
-    指定使用渲染方式，有 'svg' 和 'canvas' 可选，默认为 'canvas'。3D 图仅能使用 'canvas'。
-    
-
-# 通用配置项
-**通用配置项均在 ```add()``` 中设置**
-
-**xyAxis：平面直角坐标系中的 x、y 轴。(Line、Bar、Scatter、EffectScatter、Kline)**
-
-* is_convert -> bool  
-    是否交换 x 轴与 y 轴
-* is_xaxislabel_align -> bool  
-    x 轴刻度线和标签是否对齐，默认为 False
-* is_yaxislabel_align -> bool  
-    y 轴刻度线和标签是否对齐，默认为 False
-* is_xaxis_inverse -> bool  
-    是否反向 x 坐标轴，默认为 False
-* is_yaxis_inverse -> bool  
-    是否反向 y 坐标轴，默认为 False
-* is_xaxis_boundarygap -> bool  
-    x 轴两边留白策略，适用于类目轴。类目轴中 boundaryGap 可以配置为 True 和 False。默认为 True，这时候刻度只是作为分隔线，标签和数据点都会在两个刻度之间的带(band)中间，即两边留白。
-* is_yaxis_boundarygap -> bool  
-    y 轴两边留白策略，适用于类目轴。类目轴中 boundaryGap 可以配置为 True 和 False。默认为 True，这时候刻度只是作为分隔线，标签和数据点都会在两个刻度之间的带(band)中间，即两边留白。
-* is_xaxis_show -> bool  
-    是否显示 x 轴
-* is_yaxis_show -> bool  
-    是否显示 y 轴
-* is_splitline_show -> bool  
-    是否显示 y 轴网格线，默认为 True。
-* x_axis -> list  
-    x 轴数据项
-* xaxis_interval -> int  
-    x 轴刻度标签的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。  
-    设置成 0 强制显示所有标签。设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
-* xaxis_force_interval -> int/str  
-    强制设置 x 坐标轴分割间隔。如设置为 50 则刻度为 [0, 50, 150, ...]，设置为 "auto" 则只显示两个刻度。一般情况下不建议设置这个参数！！  
-    因为 splitNumber 是预估的值，实际根据策略计算出来的刻度可能无法达到想要的效果，这时候可以使用 interval 配合 min、max 强制设定刻度划分。在类目轴中无效。
-* xaxis_margin -> int  
-    x 轴刻度标签与轴线之间的距离。默认为 8
-* xaxis_name -> str  
-    x 轴名称
-* xaxis_name_size -> int  
-    x 轴名称体大小，默认为 14
-* xaxis_name_gap -> int  
-    x 轴名称与轴线之间的距离，默认为 25
-* xaxis_name_pos -> str  
-    x 轴名称位置，有'start'，'middle'，'end'可选
-* xaxis_min -> int/float  
-    x 坐标轴刻度最小值，默认为自适应。使用特殊值 "dataMin" 可自定以数据中最小值为 x 轴最小值。
-* xaxis_max -> int/float  
-    x 坐标轴刻度最大值，默认为自适应。使用特殊值 "dataMax" 可自定以数据中最小值为 x 轴最大值。
-* xaxis_pos -> str  
-    x 坐标轴位置，有'top','bottom'可选
-* xaxis_label_textsize -> int  
-    x 坐标轴标签字体大小，默认为 12
-* xaxis_label_textcolor -> str  
-    x 坐标轴标签字体颜色，默认为 "#000"
-* xaxis_type -> str  
-    x 坐标轴类型  
-    * 'value'：数值轴，适用于连续数据。
-    * 'category'：类目轴，适用于离散的类目数据。
-    * 'log'：对数轴。适用于对数数据。
-* xaxis_rotate -> int  
-    x 轴刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。默认为 0，即不旋转。旋转的角度从 -90 度到 90 度。
-* xaxis_formatter -> str  
-    x 轴标签格式器，如 '天'，则 x 轴的标签为数据加'天'(3 天，4 天),默认为 ""  
-    xaxis_formatter -> function  
-    ```python
-    def label_formatter(params):
-        return params.value + ' [Good!]'
-    ```
-    回调函数格式，更多内容请参考 [高级用法篇](zh-cn/advanced)
-    ```
-    (params: Object|Array) => string
-    参数 params 是 formatter 需要的单个数据集。格式如下：
-    {
-        componentType: 'series',
-        // 系列类型
-        seriesType: string,
-        // 系列在传入的 option.series 中的 index
-        seriesIndex: number,
-        // 系列名称
-        seriesName: string,
-        // 数据名，类目名
-        name: string,
-        // 数据在传入的 data 数组中的 index
-        dataIndex: number,
-        // 传入的原始数据项
-        data: Object,
-        // 传入的数据值
-        value: number|Array,
-        // 数据图形的颜色
-        color: string,
-    }
-    ```
-* y_axis -> list  
-    y 坐标轴数据
-* yaxis_interval -> int  
-    y 轴刻度标签的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。  
-    设置成 0 强制显示所有标签。设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
-* yaxis_force_interval -> int/str  
-    强制设置 y 坐标轴分割间隔。如设置为 50 则刻度为 [0, 50, 150, ...]，设置为 "auto" 则只显示两个刻度。一般情况下不建议设置这个参数！！  
-    因为 splitNumber 是预估的值，实际根据策略计算出来的刻度可能无法达到想要的效果，这时候可以使用 interval 配合 min、max 强制设定刻度划分。在类目轴中无效。
-* yaxis_margin -> int  
-    y 轴刻度标签与轴线之间的距离。默认为 8
-* yaxis_formatter -> str  
-    y 轴标签格式器，如 '天'，则 y 轴的标签为数据加'天'(3 天，4 天),默认为 ""
-    yaxis_formatter -> function  
-    ```python
-    def label_formatter(params):
-        return params.value + ' [Good!]'
-    ```
-    回调函数格式，更多内容请参考 [高级用法篇](zh-cn/advanced)
-    ```
-    (params: Object|Array) => string
-    参数 params 是 formatter 需要的单个数据集。格式如下：
-    {
-        componentType: 'series',
-        // 系列类型
-        seriesType: string,
-        // 系列在传入的 option.series 中的 index
-        seriesIndex: number,
-        // 系列名称
-        seriesName: string,
-        // 数据名，类目名
-        name: string,
-        // 数据在传入的 data 数组中的 index
-        dataIndex: number,
-        // 传入的原始数据项
-        data: Object,
-        // 传入的数据值
-        value: number|Array,
-        // 数据图形的颜色
-        color: string,
-    }
-    ```
-* yaxis_name -> str  
-    y 轴名称
-* yaxis_name_size -> int  
-    y 轴名称体大小，默认为 14
-* yaxis_name_gap -> int  
-    y 轴名称与轴线之间的距离，默认为 25
-* yaxis_name_pos -> str  
-    y 轴名称位置，有'start', 'middle'，'end'可选
-* yaxis_min -> int/float  
-    y 坐标轴刻度最小值，默认为自适应。使用特殊值 "dataMin" 可自定以数据中最小值为 y 轴最小值。
-* yaxis_max -> int/float  
-    y 坐标轴刻度最大值，默认为自适应。使用特殊值 "dataMax" 可自定以数据中最大值为 y 轴最大值。
-* yaxis_pos -> str  
-    y 坐标轴位置，有'left','right'可选
-* yaxis_label_textsize -> int  
-    y 坐标轴标签字体大小，默认为 12
-* yaxis_label_textcolor -> str  
-    y 坐标轴标签字体颜色，默认为 "#000"
-* yaxis_type -> str  
-    y 坐标轴类型  
-    * 'value'：数值轴，适用于连续数据。
-    * 'category'：类目轴，适用于离散的类目数据。
-    * 'log'：对数轴。适用于对数数据。
-* yaxis_rotate -> int  
-    y 轴刻度标签旋转的角度，在类目轴的类目标签显示不下的时候可以通过旋转防止标签之间重叠。默认为 0，即不旋转。旋转的角度从 -90 度到 90 度。
-
-
-**dataZoom：dataZoom 组件 用于区域缩放，从而能自由关注细节的数据信息，或者概览数据整体，或者去除离群点的影响。(Line、Bar、Scatter、EffectScatter、Kline)**
-
-默认的 dataZoom 控制条
-* is_datazoom_show -> bool  
-    是否使用区域缩放组件，默认为 False
-* datazoom_type -> str    
-    区域缩放组件类型，默认为'slider'，有'slider', 'inside', 'both'可选
-* datazoom_range -> list    
-    区域缩放的范围，默认为[50, 100]
-* datazoom_orient -> str  
-    datazoom 组件在直角坐标系中的方向，默认为 'horizontal'，效果显示在 x 轴。如若设置为 'vertical' 的话效果显示在 y 轴。
-* datazoom_xaxis_index -> int/list  
-    datazoom 组件控制的 x 轴索引  
-    默认控制第一个 x 轴，如没特殊需求无须显示指定。单个为 int 类型而控制多个为 list 类型，如 [0, 1] 表示控制第一个和第二个 x 轴。
-* datazoom_yaxis_index -> int/list  
-    datazoom 组件控制的 y 轴索引  
-    默认控制第一个 y 轴，如没特殊需求无须显示指定。单个为 int 类型而控制多个为 list 类型，如 [0, 1] 表示控制第一个和第二个 x 轴。
-
-额外的 dataZoom 控制条
-* is_datazoom_extrashow -> bool  
-    是否使用额外区域缩放组件，默认为 False
-* datazoom_extra_type -> str  
-    额外区域缩放组件类型，默认为'slider'，有'slider', 'inside', 'both'可选
-* datazoom_extra_range -> list  
-    额外区域缩放的范围，默认为[50, 100]
-* datazoom_extra_orient -> str  
-    额外 datazoom 组件在直角坐标系中的方向，默认为 'vertical'，效果显示在 y 轴。如若设置为 'horizontal' 的话效果显示在 x 轴。
-* datazoom_extra_xaxis_index -> int/list  
-    额外 datazoom 组件控制的 x 轴索引
-    默认控制第一个 x 轴，如没特殊需求无须显示指定。单个为 int 类型而控制多个为 list 类型，如 [0, 1] 表示控制第一个和第二个 x 轴。
-* datazoom_extra_yaxis_index -> int/list  
-    额外 datazoom 组件控制的 y 轴索引
-    默认控制第一个 y 轴，如没特殊需求无须显示指定。单个为 int 类型而控制多个为 list 类型，如 [0, 1] 表示控制第一个和第二个 x 轴。
-
-
-**legend：图例组件。图例组件展现了不同系列的标记(symbol)，颜色和名字。可以通过点击图例控制哪些系列不显示。**
-
-* is_legend_show -> bool  
-    是否显示顶端图例，默认为 True
-* legend_orient -> str  
-    图例列表的布局朝向，默认为'horizontal'，有'horizontal', 'vertical'可选
-* legend_pos -> str  
-    图例组件离容器左侧的距离，默认为'center'，有'left', 'center', 'right'可选，也可以为百分数，如"%60"
-* legend_top -> str  
-    图例组件离容器上侧的距离，默认为'top'，有'top', 'center', 'bottom'可选，也可以为百分数，如"%60"
-* legend_selectedmode -> str/bool  
-    图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认为'multiple'，可以设成 'single' 或者 'multiple' 使用单选或者多选模式。也可以设置为 False 关闭显示状态。
-* legend_text_size -> int  
-    图例名称字体大小
-* legend_text_color -> str  
-    图例名称字体颜色
-    
-
-**label：图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。**
-
-* is_label_show -> bool  
-    是否正常显示标签，默认不显示。标签即各点的数据项信息  
-* is_label_emphasis -> bool  
-    是否高亮显示标签，默认显示。高亮标签即选中数据时显示的信息项。
-* label_pos -> str  
-    标签的位置，Bar 图默认为'top'。有'top', 'left', 'right', 'bottom', 'inside','outside'可选
-* label_emphasis_pos -> str  
-    高亮标签的位置，Bar 图默认为'top'。有'top', 'left', 'right', 'bottom', 'inside','outside'可选
-* label_text_color -> str  
-    标签字体颜色，默认为 "#000"
-* label_emphasis_textcolor -> str  
-    高亮标签字体颜色，默认为 "#fff"
-* label_text_size -> int  
-    标签字体大小，默认为 12
-* label_emphasis_textsize -> int  
-    高亮标签字体大小，默认为 12
-* is_random -> bool  
-    是否随机排列颜色列表，默认为 False
-* label_color -> list  
-    自定义标签颜色。全局颜色列表，所有图表的图例颜色均在这里修改。如 Bar 的柱状颜色，Line 的线条颜色等等。
-* label_formatter -> str  
-    模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。使用示例，如 `label_formatter='{a}'`  
-    在 trigger 为 'axis' 的时候，会有多个系列的数据，此时可以通过 {a0}, {a1}, {a2} 这种后面加索引的方式表示系列的索引。不同图表类型下的 {a}，{b}，{c}，{d} 含义不一样。 其中变量 {a}, {b}, {c}, {d} 在不同图表类型下代表数据含义为：
-    * 折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
-    * 散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）
-    * 地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）
-    * 饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
-    
-    label_formatter -> function  
-    具体格式请参考 xaxis_formatter -> function
-
-**Note：** is_random 可随机打乱图例颜色列表。
-
-
-**lineStyle：带线图形的线的风格选项(Line、Polar、Radar、Graph、Parallel)**
-
-* line_width -> int    
-    线的宽度，默认为 1
-* line_opacity -> float    
-    线的透明度，0 为完全透明，1 为完全不透明。默认为 1
-* line_curve -> float    
-    线的弯曲程度，0 为完全不弯曲，1 为最弯曲。默认为 0
-* line_type -> str  
-    线的类型，有'solid', 'dashed', 'dotted'可选。默认为'solid'
-* line_color -> str  
-    线的颜色
-
-
-**grid3D：3D 笛卡尔坐标系组配置项，适用于 3D 图形。（Bar3D, Line3D, Scatter3D)**
-
-* grid3d_width -> int  
-    三维笛卡尔坐标系组件在三维场景中的高度。默认为 100
-* grid3d_height -> int  
-    三维笛卡尔坐标系组件在三维场景中的高度。默认为 100
-* grid3d_depth -> int  
-    三维笛卡尔坐标系组件在三维场景中的高度。默认为 100
-* is_grid3d_rotate -> bool  
-    是否开启视角绕物体的自动旋转查看。默认为 False
-* grid3d_rotate_speed -> int  
-    物体自传的速度。单位为角度 / 秒，默认为 10 ，也就是 36 秒转一圈。
-* grid3d_rotate_sensitivity -> int  
-    旋转操作的灵敏度，值越大越灵敏。默认为 1, 设置为 0 后无法旋转。
-
-
-**axis3D：3D 笛卡尔坐标系 X，Y，Z 轴配置项，适用于 3D 图形。（Bar3D, Line3D, Scatter3D)**
-
-**3D X 轴**
-
-* xaxis3d_name -> str  
-    x 轴名称，默认为 ""
-* xaxis3d_name_size -> int  
-    x 轴名称体大小，默认为 16
-* xaxis3d_name_gap -> int  
-    x 轴名称与轴线之间的距离，默认为 25
-* xaxis3d_min -> int/float  
-    x 坐标轴刻度最小值，默认为自适应。
-* xaxis3d_max -> int/float  
-    x 坐标轴刻度最大值，默认为自适应。
-* xaxis3d_interval -> int  
-    x 轴刻度标签的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。  
-    设置成 0 强制显示所有标签。设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
-* xaxis3d_margin -> int  
-    x 轴刻度标签与轴线之间的距离。默认为 8
-
-**3D Y 轴**
-
-* yaxis3d_name -> str  
-    y 轴名称，默认为 ""
-* yaxis3d_name_size -> int  
-    y 轴名称体大小，默认为 16
-* yaxis3d_name_gap -> int  
-    y 轴名称与轴线之间的距离，默认为 25
-* yaxis3d_min -> int/float  
-    y 坐标轴刻度最小值，默认为自适应。
-* yaxis3d_max -> int/float  
-    y 坐标轴刻度最大值，默认为自适应。
-* yaxis3d_interval -> int  
-    y 轴刻度标签的显示间隔，在类目轴中有效。默认会采用标签不重叠的策略间隔显示标签。  
-    设置成 0 强制显示所有标签。设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
-* yaxis3d_margin -> int  
-    y 轴刻度标签与轴线之间的距离。默认为 8
-
-**3D Z 轴**
-
-* zaxis3d_name -> str  
-    z 轴名称，默认为 ""
-* zaxis3d_name_size -> int  
-    z 轴名称体大小，默认为 16
-* zaxis3d_name_gap -> int  
-    z 轴名称与轴线之间的距离，默认为 25
-* zaxis3d_min -> int/float  
-    z 坐标轴刻度最小值，默认为自适应。
-* zaxis3d_max -> int/float  
-    z 坐标轴刻度最大值，默认为自适应。
-* zaxis3d_margin -> int  
-    z 轴刻度标签与轴线之间的距离。默认为 8
-
-
-**visualMap：是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）**
-
-* is_visualmap -> bool  
-    是否使用视觉映射组件
-* visual_type -> str  
-    制定组件映射方式，默认为'color‘，即通过颜色来映射数值。有'color', 'size'可选。'size'通过数值点的大小，也就是图形点的大小来映射数值。
-* visual_range -> list  
-    指定组件的允许的最小值与最大值。默认为 [0, 100]
-* visual_text_color -> list  
-    两端文本颜色。
-* visual_range_text -> list  
-    两端文本。默认为 ['low', 'hight']
-* visual_range_color -> list  
-    过渡颜色。默认为 ['#50a3ba', '#eac763', '#d94e5d']
-* visual_range_size -> list  
-    数值映射的范围，也就是图形点大小的范围。默认为 [20, 50]
-* visual_orient -> str  
-    visualMap 组件条的方向，默认为'vertical'，有'vertical', 'horizontal'可选。
-* visual_pos -> str/int  
-    visualmap 组件条距离左侧的位置，默认为'left'。有'right', 'center', 'right'可选，也可为百分数或整数。
-* visual_top -> str/int  
-    visualmap 组件条距离顶部的位置，默认为'top'。有'top', 'center', 'bottom'可选，也可为百分数或整数。
-* visual_split_number -> int  
-    分段型中分割的段数，在设置为分段型时生效。默认分为 5 段。
-* visual_dimension -> int  
-    指定用数据的『哪个维度』，映射到视觉元素上。默认映射到最后一个维度。索引从 0 开始。  
-    在直角坐标系中，x 轴为第一个维度（0），y 轴为第二个维度（1）。
-* is_calculable -> bool  
-    是否显示拖拽用的手柄（手柄能拖拽调整选中范围）。默认为 True
-* is_piecewise -> bool  
-    是否将组件转换为分段型（默认为连续型），默认为 False
-* pieces -> list  
-    自定义『分段式视觉映射组件（visualMapPiecewise）』的每一段的范围，  
-    以及每一段的文字，以及每一段的特别的样式。（仅在 is_piecewise 为 True 时生效）例如： 
-    ``` 
-    pieces: [
-        {min: 1500}, // 不指定 max，表示 max 为无限大（Infinity）。
-        {min: 900, max: 1500},
-        {min: 310, max: 1000},
-        {min: 200, max: 300},
-        {min: 10, max: 200, label: '10 到 200（自定义label）'},
-        // 表示 value 等于 123 的情况。
-        {value: 123, label: '123（自定义特殊颜色）', color: 'grey'}
-        {max: 5}     // 不指定 min，表示 min 为无限大（-Infinity）。
-    ]
-    ```
-
-**tooltip：提示框组件，用于移动或点击鼠标时弹出数据内容**
-
-* tooltip_trigger -> str  
-    触发类型。默认为 'item'  
-    * 'item': 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用。
-    * 'axis': 坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
-    * 'none': 什么都不触发。
-* tooltip_trigger_on -> str  
-    提示框触发的条件。默认为 "mousemove|click"
-    * 'mousemove': 鼠标移动时触发。
-    * 'click': 鼠标点击时触发。
-    * 'mousemove|click': 同时鼠标移动和点击时触发。
-    * 'none': 不在 'mousemove' 或 'click' 时触发
-* tooltip_axispointer_type -> str  
-    指示器类型。默认为 "line"  
-    * 'line': 直线指示器
-    * 'shadow': 阴影指示器
-    * 'cross': 十字准星指示器。其实是种简写，表示启用两个正交的轴的 axisPointer。
-* tooltip_formatter -> str  
-    模板变量有 {a}, {b}，{c}，{d}，{e}，分别表示系列名，数据名，数据值等。  
-    在 trigger 为 'axis' 的时候，会有多个系列的数据，此时可以通过 {a0}, {a1}, {a2} 这种后面加索引的方式表示系列的索引。不同图表类型下的 {a}，{b}，{c}，{d} 含义不一样。 其中变量 {a}, {b}, {c}, {d} 在不同图表类型下代表数据含义为：
-    * 折线（区域）图、柱状（条形）图、K线图 : {a}（系列名称），{b}（类目值），{c}（数值）, {d}（无）
-    * 散点图（气泡）图 : {a}（系列名称），{b}（数据名称），{c}（数值数组）, {d}（无）
-    * 地图 : {a}（系列名称），{b}（区域名称），{c}（合并数值）, {d}（无）
-    * 饼图、仪表盘、漏斗图: {a}（系列名称），{b}（数据项名称），{c}（数值）, {d}（百分比）
-
-    tooltip_formatter -> function  
-    具体格式请参考 xaxis_formatter -> function
-* tooltip_text_color -> str  
-    提示框字体颜色，默认为 '#fff'
-* tooltip_font_size -> int  
-    提示框字体大小，默认为 14
-* tooltip_background_color -> str  
-    提示框浮层的背景颜色。默认为 "rgba(50,50,50,0.7)"
-* tooltip_border_color -> str  
-    提示框浮层的边框颜色。默认为 "#333"
-* tooltip_border_width -> int/float  
-    提示框浮层的边框宽。默认为 0
-
-
-**markLine&markPoint：图形标记组件，用于标记指定的特殊数据，有标记线和标记点两种（Bar、Line、Kline）**
-
-* mark_point -> list  
-    标记点，默认有'min', 'max', 'average'可选。支持自定义标记点，具体使用如下  
-    [{"coord": [a1, b1], "name": "first markpoint"}, {"coord": [a2, b2], "name": "second markpoint"}]  
-    需自己传入标记点字典，共有两个键值对，'coord' 对应为 x y 轴坐标， 'name' 为标记点名称
-* mark_point_symbol -> str  
-    标记点图形，，默认为'pin'，有'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'可选
-* mark_point_symbolsize -> int  
-    标记点图形大小，默认为 50
-* mark_point_textcolor -> str  
-    标记点字体颜色，默认为'#fff'
-* mark_line -> list  
-    标记线，默认有'min', 'max', 'average'可选
-* mark_line_symbolsize -> int  
-    标记线图形大小，默认为 15
-* mark_line_valuedim -> list  
-    标记线指定在哪个维度上指定最大值最小值。这可以是维度的直接名称，Line 时可以是 x、angle 等、Kline 图时可以是 open、close、highest、lowest。  
-    可同时制定多个维度，如:  
-    mark_line=['min', 'max'], mark_line_valuedim=['lowest', 'highest'] 则表示 min 使用 lowest 维度，max 使用 highest 维度，以此类推
-* mark_line_coords -> [list], 包含列表的列表  
-    标记线指定起点坐标和终点坐标，如 [[10, 10], [30, 30]]，两个点分别为横纵坐标轴点。
-* mark_point_valuedim -> list  
-    标记线指定在哪个维度上指定最大值最小值。这可以是维度的直接名称，Line 时可以是 x、angle 等、Kline 图时可以是 open、close、highest、lowest。  
-    可同时制定多个维度，如:  
-    mark_point=['min', 'max'], mark_point_valuedim=['lowest', 'highest'] 则表示 min 使用 lowest 维度，max 使用 highest 维度，以此类推
-
-
-**toolbox：右侧实用工具箱**
-
-* is_toolbox_show -> bool  
-    指定是否显示右侧实用工具箱，默认为 True。
-* is_more_utils -> bool  
-    指定是否提供更多的实用工具按钮。默认只提供『数据视图』和『下载』按钮
-
-
-# 图表详细  
 
 ## Bar（柱状图/条形图）
 > 柱状/条形图，通过柱形的高度/条形的宽度来表现数据的大小。
@@ -610,8 +112,14 @@ bar.render()
 attr = ["{}天".format(i) for i in range(30)]
 v1 = [random.randint(1, 30) for _ in range(30)]
 bar = Bar("Bar - datazoom - inside 示例")
-bar.add("", attr, v1, is_datazoom_show=True, datazoom_type='inside',
-        datazoom_range=[10, 25])
+bar.add(
+    "",
+    attr,
+    v1,
+    is_datazoom_show=True,
+    datazoom_type="inside",
+    datazoom_range=[10, 25],
+)
 bar.render()
 ```
 ![bar-demo](https://user-images.githubusercontent.com/19553554/35081801-307b3d26-fc51-11e7-8ac7-eea2f2422402.gif)
@@ -621,8 +129,14 @@ bar.render()
 attr = ["{}天".format(i) for i in range(30)]
 v1 = [random.randint(1, 30) for _ in range(30)]
 bar = Bar("Bar - datazoom - inside 示例")
-bar.add("", attr, v1, is_datazoom_show=True, datazoom_type='both',
-        datazoom_range=[10, 25])
+bar.add(
+    "",
+    attr,
+    v1,
+    is_datazoom_show=True,
+    datazoom_type="both",
+    datazoom_range=[10, 25],
+)
 bar.render()
 ```
 ![bar-demo](https://user-images.githubusercontent.com/19553554/35081813-37fc4072-fc51-11e7-9b5c-a3ca2f0d1fef.gif)
@@ -648,7 +162,7 @@ bar.add(
 )
 bar.render()
 ```
-![2018-07-28_10-19-17](https://user-images.githubusercontent.com/19553554/43352052-ec70fe82-924f-11e8-880b-832b8f95d701.gif)
+![bar-demo](https://user-images.githubusercontent.com/19553554/43352052-ec70fe82-924f-11e8-880b-832b8f95d701.gif)
 
 
 **Note：** datazoom 适合所有平面直角坐标系图形，也就是(Line、Bar、Scatter、EffectScatter、Kline)  
@@ -708,9 +222,45 @@ bar.render()
 ```
 ![bar-demo](https://user-images.githubusercontent.com/19553554/35081822-3e090748-fc51-11e7-8bba-b775d29671e4.png)
 
+**额外的文本标签**
+```python
+from pyecharts import Bar
+
+bar = Bar("柱状图", extra_html_text_label=["bar_extra_html_text_label", "color:red"])
+bar.add("商家A", CLOTHES, clothes_v1, is_stack=True)
+bar.add("商家B", CLOTHES, clothes_v2, is_stack=True)
+bar.render()
+```
+![bar-demo](https://user-images.githubusercontent.com/19553554/43812932-31f22e0a-9af6-11e8-8fbe-c62b65daec41.png)
+
+**控制 X/Y 轴坐标轴线颜色以及宽度**
+```python
+bar = Bar("柱状图")
+bar.add(
+    "商家A",
+    CLOTHES,
+    clothes_v1,
+    xaxis_line_color="green",
+    xaxis_line_width=5,
+    xaxis_label_textcolor="black",
+)
+bar.render()
+```
+![bar-demo](https://user-images.githubusercontent.com/19553554/43877147-e30b5cf0-9bca-11e8-9bc7-c1cd7be58141.png)
+
+**进行两次或两次 add 的时候，有一次的某项数据缺失，可用 0 填充**
+```python
+bar = Bar("折线图示例")
+bar.add("商家A", CLOTHES, clothes_v1)
+bar.add("商家B", CLOTHES, [55, 60, 16, 20, 0, 0])
+bar.render()
+```
+![bar-demo](https://user-images.githubusercontent.com/19553554/44008022-e3708900-9ed0-11e8-94c5-68c8d96ebe60.png)
+
 
 ## Bar3D（3D 柱状图）
 Bar3D.add() 方法签名
+
 ```python
 add(name, x_axis, y_axis, data,
     grid3d_opacity=1,
@@ -775,9 +325,17 @@ data = [
     ]
 range_color = ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf',
                '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
-bar3d.add("", x_axis, y_axis, [[d[1], d[0], d[2]] for d in data],
-          is_visualmap=True, visual_range=[0, 20],
-          visual_range_color=range_color, grid3d_width=200, grid3d_depth=80)
+bar3d.add(
+    "",
+    x_axis,
+    y_axis,
+    [[d[1], d[0], d[2]] for d in data],
+    is_visualmap=True,
+    visual_range=[0, 20],
+    visual_range_color=range_color,
+    grid3d_width=200,
+    grid3d_depth=80,
+)
 bar3d.render()
 ```
 ![bar3d-demo](https://user-images.githubusercontent.com/19553554/35081629-36a8e046-fc50-11e7-8910-e02bf24008d9.gif)
@@ -787,10 +345,18 @@ data 中，如 [1, 2, 3] 表示 x 轴的索引为 1，即 "1a"；y 轴的索引�
 **设置 ```grid3d_shading``` 可以让柱状更真实**
 ```python
 bar3d = Bar3D("3D 柱状图示例", width=1200, height=600)
-bar3d.add("", x_axis, y_axis, [[d[1], d[0], d[2]] for d in data],
-          is_visualmap=True, visual_range=[0, 20],
-          visual_range_color=range_color, grid3d_width=200,
-          grid3d_depth=80, grid3d_shading='lambert')
+bar3d.add(
+    "",
+    x_axis,
+    y_axis,
+    [[d[1], d[0], d[2]] for d in data],
+    is_visualmap=True,
+    visual_range=[0, 20],
+    visual_range_color=range_color,
+    grid3d_width=200,
+    grid3d_depth=80,
+    grid3d_shading="lambert",
+)
 bar3d.render()
 ```
 ![bar3d-demo](https://user-images.githubusercontent.com/19553554/35081631-38a0cb02-fc50-11e7-9f74-3d487bd98a3a.gif)
@@ -798,10 +364,18 @@ bar3d.render()
 **设置 ```is_grid3d_rotate``` 启动自动旋转功能**
 ```python
 bar3d = Bar3D("3D 柱状图示例", width=1200, height=600)
-bar3d.add("", x_axis, y_axis, [[d[1], d[0], d[2]] for d in data],
-          is_visualmap=True, visual_range=[0, 20],
-          visual_range_color=range_color, grid3d_width=200,
-          grid3d_depth=80, is_grid3d_rotate=True)
+bar3d.add(
+    "",
+    x_axis,
+    y_axis,
+    [[d[1], d[0], d[2]] for d in data],
+    is_visualmap=True,
+    visual_range=[0, 20],
+    visual_range_color=range_color,
+    grid3d_width=200,
+    grid3d_depth=80,
+    is_grid3d_rotate=True,
+)
 bar3d.render()
 ```
 ![bar3d-demo](https://user-images.githubusercontent.com/19553554/35081703-a70b544a-fc50-11e7-838a-53445cd8d203.gif)
@@ -809,10 +383,19 @@ bar3d.render()
 **设置 ```grid3d_rotate_speed``` 调节旋转速度**
 ```python
 bar3d = Bar3D("3D 柱状图示例", width=1200, height=600)
-bar3d.add("", x_axis, y_axis, [[d[1], d[0], d[2]] for d in data],
-          is_visualmap=True, visual_range=[0, 20],
-          visual_range_color=range_color, grid3d_width=200,
-          grid3d_depth=80, is_grid3d_rotate=True, grid3d_rotate_speed=180)
+bar3d.add(
+    "",
+    x_axis,
+    y_axis,
+    [[d[1], d[0], d[2]] for d in data],
+    is_visualmap=True,
+    visual_range=[0, 20],
+    visual_range_color=range_color,
+    grid3d_width=200,
+    grid3d_depth=80,
+    is_grid3d_rotate=True,
+    grid3d_rotate_speed=180,
+)
 bar3d.render()
 ```
 ![bar3d-demo](https://user-images.githubusercontent.com/19553554/35081705-a92a878c-fc50-11e7-8427-9066456db54c.gif)
@@ -916,18 +499,60 @@ es.render()
 **动态散点图各种图形**
 ```python
 es = EffectScatter("动态散点图各种图形示例")
-es.add("", [10], [10], symbol_size=20, effect_scale=3.5,
-       effect_period=3, symbol="pin")
-es.add("", [20], [20], symbol_size=12, effect_scale=4.5,
-       effect_period=4,symbol="rect")
-es.add("", [30], [30], symbol_size=30, effect_scale=5.5,
-       effect_period=5,symbol="roundRect")
-es.add("", [40], [40], symbol_size=10, effect_scale=6.5,
-       effect_brushtype='fill',symbol="diamond")
-es.add("", [50], [50], symbol_size=16, effect_scale=5.5,
-       effect_period=3,symbol="arrow")
-es.add("", [60], [60], symbol_size=6, effect_scale=2.5,
-       effect_period=3,symbol="triangle")
+es.add(
+    "",
+    [10],
+    [10],
+    symbol_size=20,
+    effect_scale=3.5,
+    effect_period=3,
+    symbol="pin",
+)
+es.add(
+    "",
+    [20],
+    [20],
+    symbol_size=12,
+    effect_scale=4.5,
+    effect_period=4,
+    symbol="rect",
+)
+es.add(
+    "",
+    [30],
+    [30],
+    symbol_size=30,
+    effect_scale=5.5,
+    effect_period=5,
+    symbol="roundRect",
+)
+es.add(
+    "",
+    [40],
+    [40],
+    symbol_size=10,
+    effect_scale=6.5,
+    effect_brushtype="fill",
+    symbol="diamond",
+)
+es.add(
+    "",
+    [50],
+    [50],
+    symbol_size=16,
+    effect_scale=5.5,
+    effect_period=3,
+    symbol="arrow",
+)
+es.add(
+    "",
+    [60],
+    [60],
+    symbol_size=6,
+    effect_scale=2.5,
+    effect_period=3,
+    symbol="triangle",
+)
 es.render()
 ```
 ![effectscatter-demo](https://user-images.githubusercontent.com/19553554/35090533-e7330076-fc74-11e7-9ba0-7cc4ff80e030.gif)
@@ -960,16 +585,29 @@ from pyecharts import Funnel
 attr = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
 value = [20, 40, 60, 80, 100, 120]
 funnel = Funnel("漏斗图示例")
-funnel.add("商品", attr, value, is_label_show=True,
-           label_pos="inside", label_text_color="#fff")
+funnel.add(
+    "商品",
+    attr,
+    value,
+    is_label_show=True,
+    label_pos="inside",
+    label_text_color="#fff",
+)
 funnel.render()
 ```
 ![funnel-demo](https://user-images.githubusercontent.com/19553554/35090181-d6b0e886-fc73-11e7-8e00-dec8ac38c415.gif)
 
 ```python
 funnel = Funnel("漏斗图示例", width=600, height=400, title_pos='center')
-funnel.add("商品", attr, value, is_label_show=True, label_pos="outside",
-           legend_orient='vertical', legend_pos='left')
+funnel.add(
+    "商品",
+    attr,
+    value,
+    is_label_show=True,
+    label_pos="outside",
+    legend_orient="vertical",
+    legend_pos="left",
+)
 funnel.render()
 ```
 ![funnel-demo](https://user-images.githubusercontent.com/19553554/35090186-d8f50db6-fc73-11e7-9b7e-947580a621de.png)
@@ -1004,8 +642,14 @@ gauge.render()
 
 ```python
 gauge = Gauge("仪表盘示例")
-gauge.add("业务指标", "完成率", 166.66, angle_range=[180, 0],
-          scale_range=[0, 200], is_legend_show=False)
+gauge.add(
+    "业务指标",
+    "完成率",
+    166.66,
+    angle_range=[180, 0],
+    scale_range=[0, 200],
+    is_legend_show=False,
+)
 gauge.render()
 ```
 ![gauge-demo](https://user-images.githubusercontent.com/19553554/35090193-dc199d22-fc73-11e7-8f4d-22477a3a22be.png)
@@ -1019,6 +663,7 @@ Geo.add() 方法签名
 add(name, attr, value,
     type="scatter",
     maptype='china',
+    coordinate_region='中国',
     symbol_size=12,
     border_color="#111",
     geo_normal_color="#323c48",
@@ -1036,6 +681,8 @@ add(name, attr, value,
     图例类型，有'scatter', 'effectScatter', 'heatmap'可选。默认为 'scatter'
 * maptype -> str  
     地图类型。 从 v0.3.2+ 起，地图已经变为扩展包，支持全国省份，全国城市，全国区县，全球国家等地图，具体请参考 [地图自定义篇](zh-cn/customize_map)
+* coordinate_region -> str  
+    城市坐标所属国家。从 v0.5.7 引入，针对国际城市的地理位置的查找。默认为 `中国`。具体的国家/地区映射表参照 [countries_regions_db.json](https://github.com/pyecharts/pyecharts/blob/master/pyecharts/datasets/countries_regions_db.json)
 * symbol_size -> int  
     标记图形大小。默认为 12
 * border_color -> str  
@@ -1088,12 +735,25 @@ data = [
     ("湘潭", 154),("金华", 157),("岳阳", 169),("长沙", 175),("衢州", 177),("廊坊", 193),
     ("菏泽", 194),("合肥", 229),("武汉", 273),("大庆", 279)]
 
-geo = Geo("全国主要城市空气质量", "data from pm2.5", title_color="#fff",
-          title_pos="center", width=1200,
-          height=600, background_color='#404a59')
+geo = Geo(
+    "全国主要城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    width=1200,
+    height=600,
+    background_color="#404a59",
+)
 attr, value = geo.cast(data)
-geo.add("", attr, value, visual_range=[0, 200], visual_text_color="#fff",
-        symbol_size=15, is_visualmap=True)
+geo.add(
+    "",
+    attr,
+    value,
+    visual_range=[0, 200],
+    visual_text_color="#fff",
+    symbol_size=15,
+    is_visualmap=True,
+)
 geo.render()
 ```
 ![geo-demo](https://user-images.githubusercontent.com/19553554/35089650-7f06172e-fc72-11e7-9d4b-14437fb0d8fe.gif)
@@ -1102,24 +762,52 @@ geo.render()
 
 **Scatter 类型（分段型）**
 ```python
-geo = Geo("全国主要城市空气质量", "data from pm2.5", title_color="#fff",
-          title_pos="center", width=1200,
-          height=600, background_color='#404a59')
+geo = Geo(
+    "全国主要城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    width=1200,
+    height=600,
+    background_color="#404a59",
+)
 attr, value = geo.cast(data)
-geo.add("", attr, value, visual_range=[0, 200], visual_text_color="#fff",
-        symbol_size=15, is_visualmap=True, is_piecewise=True, visual_split_number=6)
+geo.add(
+    "",
+    attr,
+    value,
+    visual_range=[0, 200],
+    visual_text_color="#fff",
+    symbol_size=15,
+    is_visualmap=True,
+    is_piecewise=True,
+    visual_split_number=6,
+)
 geo.render()
 ```
 ![geo-demo](https://user-images.githubusercontent.com/19553554/35089651-80d259a0-fc72-11e7-8af9-d96df53c0d49.gif)
 
 **HeatMap 类型**
 ```python
-geo = Geo("全国主要城市空气质量", "data from pm2.5", title_color="#fff",
-          title_pos="center", width=1200,
-          height=600, background_color='#404a59')
+geo = Geo(
+    "全国主要城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    width=1200,
+    height=600,
+    background_color="#404a59",
+)
 attr, value = geo.cast(data)
-geo.add("", attr, value, type="heatmap", is_visualmap=True, visual_range=[0, 300],
-        visual_text_color='#fff')
+geo.add(
+    "",
+    attr,
+    value,
+    type="heatmap",
+    is_visualmap=True,
+    visual_range=[0, 300],
+    visual_text_color="#fff",
+)
 geo.render()
 ```
 ![geo-demo](https://user-images.githubusercontent.com/19553554/35089653-82498f88-fc72-11e7-9811-2aceccd4ed68.gif)
@@ -1129,12 +817,17 @@ geo.render()
 from pyecharts import Geo
 
 data = [
-    ("海门", 9), ("鄂尔多斯", 12), ("招远", 12),
-    ("舟山", 12), ("齐齐哈尔", 14), ("盐城", 15)
-    ]
-geo = Geo("全国主要城市空气质量", "data from pm2.5", title_color="#fff",
-          title_pos="center", width=1200,
-          height=600, background_color='#404a59')
+    ("海门", 9), ("鄂尔多斯", 12), ("招远", 12), ("舟山", 12), ("齐齐哈尔", 14), ("盐城", 15)
+]
+geo = Geo(
+    "全国主要城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    width=1200,
+    height=600,
+    background_color="#404a59",
+)
 attr, value = geo.cast(data)
 geo.add("", attr, value, type="effectScatter", is_random=True, effect_scale=5)
 geo.render()
@@ -1145,19 +838,62 @@ geo.render()
 ```python
 from pyecharts import Geo
 
-data =[
-    ('汕头市', 50), ('汕尾市', 60), ('揭阳市', 35),
-    ('阳江市', 44), ('肇庆市', 72)
-    ]
-geo = Geo("广东城市空气质量", "data from pm2.5", title_color="#fff",
-          title_pos="center", width=1200,
-          height=600, background_color='#404a59')
+data = [("汕头市", 50), ("汕尾市", 60), ("揭阳市", 35), ("阳江市", 44), ("肇庆市", 72)]
+geo = Geo(
+    "广东城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    width=1200,
+    height=600,
+    background_color="#404a59",
+)
 attr, value = geo.cast(data)
-geo.add("", attr, value, maptype='广东', type="effectScatter",
-        is_random=True, effect_scale=5, is_legend_show=False)
+geo.add(
+    "",
+    attr,
+    value,
+    maptype="广东",
+    type="effectScatter",
+    is_random=True,
+    effect_scale=5,
+    is_legend_show=False,
+)
 geo.render()
 ```
 ![geo-demo](https://user-images.githubusercontent.com/19553554/35089657-85d0b7bc-fc72-11e7-8b3d-8127dbe8f780.gif)
+
+**使用 coordinate_region 指定检索坐标的国家/地区**
+```python
+from pyecharts import Geo
+
+data = [("Oxford", 15), ("London", 12)]
+
+geo = Geo(
+    "英国主要城市空气质量",
+    "data from pm2.5",
+    title_color="#fff",
+    title_pos="center",
+    background_color="#404a59",
+)
+attr, value = geo.cast(data)
+geo.add(
+    "",
+    attr,
+    value,
+    maptype="英国",
+    # 使用 coordinate_region，指定检索英国范围内的坐标，如上述的 Oxford。
+    # 默认为中国
+    coordinate_region="英国",
+    visual_range=[0, 200],
+    visual_text_color="#fff",
+    symbol_size=15,
+    is_visualmap=True,
+)
+
+geo.render()
+```
+![geo-demo](https://user-images.githubusercontent.com/19553554/43998653-23b21a78-9e2d-11e8-8273-52fbeaacc6e8.png)
 
 
 ## GeoLines（地理坐标系线图）
@@ -1167,6 +903,7 @@ GeoLines.add() 方法签名
 ```python
 add(name, data,
     maptype='china',
+    coordinate_region="中国",
     symbol=None,
     symbol_size=12,
     border_color="#111",
@@ -1187,6 +924,8 @@ add(name, data,
     数据项，数据中，每一行是一个『数据项』，每一列属于一个『维度』。每一行包含两个或三个数据，如 ["广州", "北京"] 或 ["广州", "北京"，100]，则指定从广州到北京。第三个值用于表示该 line 的数值，该值可省略。
 * maptype -> str  
     地图类型。 从 v0.3.2+ 起，地图已经变为扩展包，支持全国省份，全国城市，全国区县，全球国家等地图，具体请参考 [地图自定义篇](zh-cn/customize_map)
+* coordinate_region -> str  
+    城市坐标所属国家。从 v0.5.7 引入，针对国际城市的地理位置的查找。默认为 `中国`。具体的国家/地区映射表参照 [countries_regions_db.json](https://github.com/pyecharts/pyecharts/blob/master/pyecharts/datasets/countries_regions_db.json)
 * symbol -> str  
     线两端的标记类型，可以是一个数组分别指定两端，也可以是单个统一指定。
 * symbol_size -> int  
@@ -1413,9 +1152,15 @@ graph.render()
 
 ```python
 graph = Graph("关系图-环形布局示例")
-graph.add("", nodes, links, is_label_show=True,
-          graph_repulsion=8000, graph_layout='circular',
-          label_text_color=None)
+graph.add(
+    "",
+    nodes,
+    links,
+    is_label_show=True,
+    graph_repulsion=8000,
+    graph_layout="circular",
+    label_text_color=None,
+)
 graph.render()
 ```
 ![graph-demo](https://user-images.githubusercontent.com/19553554/35082112-07074726-fc53-11e7-9f28-2d3b39c5e162.png)
@@ -1429,9 +1174,17 @@ with open(os.path.join("fixtures", "weibo.json"), "r", encoding="utf-8") as f:
     j = json.load(f)
     nodes, links, categories, cont, mid, userl = j
 graph = Graph("微博转发关系图", width=1200, height=600)
-graph.add("", nodes, links, categories, label_pos="right",
-          graph_repulsion=50, is_legend_show=False,
-          line_curve=0.2, label_text_color=None)
+graph.add(
+    "",
+    nodes,
+    links,
+    categories,
+    label_pos="right",
+    graph_repulsion=50,
+    is_legend_show=False,
+    line_curve=0.2,
+    label_text_color=None,
+)
 graph.render()
 ```
 ![graph-demo](https://user-images.githubusercontent.com/19553554/35081908-bb313aba-fc51-11e7-8ef5-df20be445d72.gif)
@@ -1478,8 +1231,15 @@ y_axis = [
     "Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday", "Sunday"]
 data = [[i, j, random.randint(0, 50)] for i in range(24) for j in range(7)]
 heatmap = HeatMap()
-heatmap.add("热力图直角坐标系", x_axis, y_axis, data, is_visualmap=True,
-            visual_text_color="#000", visual_orient='horizontal')
+heatmap.add(
+    "热力图直角坐标系",
+    x_axis,
+    y_axis,
+    data,
+    is_visualmap=True,
+    visual_text_color="#000",
+    visual_orient="horizontal",
+)
 heatmap.render()
 ```
 ![heatmap-demo](https://user-images.githubusercontent.com/19553554/35090544-f306fcb8-fc74-11e7-8b0a-0284632c3c4d.gif)
@@ -1492,15 +1252,26 @@ from pyecharts import HeatMap
 
 begin = datetime.date(2017, 1, 1)
 end = datetime.date(2017, 12, 31)
-data = [[str(begin + datetime.timedelta(days=i)),
-        random.randint(1000, 25000)] for i in range((end - begin).days + 1)]
+data = [
+    [str(begin + datetime.timedelta(days=i)), random.randint(1000, 25000)]
+    for i in range((end - begin).days + 1)
+]
 heatmap = HeatMap("日历热力图示例", "某人 2017 年微信步数情况", width=1100)
-heatmap.add("", data, is_calendar_heatmap=True,
-            visual_text_color='#000', visual_range_text=['', ''],
-            visual_range=[1000, 25000], calendar_cell_size=['auto', 30],
-            is_visualmap=True, calendar_date_range="2017",
-            visual_orient="horizontal", visual_pos="center",
-            visual_top="80%", is_piecewise=True)
+heatmap.add(
+    "",
+    data,
+    is_calendar_heatmap=True,
+    visual_text_color="#000",
+    visual_range_text=["", ""],
+    visual_range=[1000, 25000],
+    calendar_cell_size=["auto", 30],
+    is_visualmap=True,
+    calendar_date_range="2017",
+    visual_orient="horizontal",
+    visual_pos="center",
+    visual_top="80%",
+    is_piecewise=True,
+)
 heatmap.render()
 ```
 ![heatmap-demo](https://user-images.githubusercontent.com/19553554/35090548-f51dfe0c-fc74-11e7-8a97-012fec231b85.gif)
@@ -1551,8 +1322,13 @@ kline.render()
 **Kline + dataZoom**
 ```python
 kline = Kline("K 线图示例")
-kline.add("日K", ["2017/7/{}".format(i + 1) for i in range(31)], v1,
-          mark_point=["max"], is_datazoom_show=True)
+kline.add(
+    "日K",
+    ["2017/7/{}".format(i + 1) for i in range(31)],
+    v1,
+    mark_point=["max"],
+    is_datazoom_show=True,
+)
 kline.render()
 ```
 ![kline-demo](https://user-images.githubusercontent.com/19553554/35090072-9b6ca404-fc73-11e7-8abe-e5576d35c57a.gif)
@@ -1560,9 +1336,14 @@ kline.render()
 **dataZoom 效果加在纵坐标轴上**
 ```python
 kline = Kline("K 线图示例")
-kline.add("日K", ["2017/7/{}".format(i + 1) for i in range(31)], v1,
-          mark_point=["max"], is_datazoom_show=True,
-          datazoom_orient='vertical')
+kline.add(
+    "日K",
+    ["2017/7/{}".format(i + 1) for i in range(31)],
+    v1,
+    mark_point=["max"],
+    is_datazoom_show=True,
+    datazoom_orient="vertical",
+)
 kline.render()
 ```
 ![kline-demo](https://user-images.githubusercontent.com/19553554/35090075-9d14041e-fc73-11e7-8b89-437ee75a9296.gif)
@@ -1570,12 +1351,19 @@ kline.render()
 **指定 markLine 位于开盘或者收盘上**
 ```python
 kline = Kline("K 线图示例")
-kline.add("日K", ["2017/7/{}".format(i + 1) for i in range(31)],
-          v1, mark_line=["max"], mark_line_symbolsize=0,
-          datazoom_orient='vertical', mark_line_valuedim='close')
+kline.add(
+    "日K",
+    ["2017/7/{}".format(i + 1) for i in range(31)],
+    v1,
+    mark_line=["max"],
+    mark_line_symbolsize=0,
+    datazoom_orient="vertical",
+    mark_line_valuedim="close",
+)
 kline.render()
 ```
 ![kline-demo](https://user-images.githubusercontent.com/19553554/35090078-9e901a44-fc73-11e7-835c-3408cc960bac.png)
+
 
 ## Line（折线/面积图）
 > 折线图是用折线将各个数据点标志连接起来的图表，用于展现数据的变化趋势。
@@ -1623,22 +1411,41 @@ line.render()
 **标记点其他配置**
 ```python
 line = Line("折线图示例")
-line.add("商家A", attr, v1, mark_point=["average", "max", "min"],
-         mark_point_symbol='diamond', mark_point_textcolor='#40ff27')
-line.add("商家B", attr, v2, mark_point=["average", "max", "min"],
-         mark_point_symbol='arrow', mark_point_symbolsize=40)
+line.add(
+    "商家A",
+    attr,
+    v1,
+    mark_point=["average", "max", "min"],
+    mark_point_symbol="diamond",
+    mark_point_textcolor="#40ff27",
+)
+line.add(
+    "商家B",
+    attr,
+    v2,
+    mark_point=["average", "max", "min"],
+    mark_point_symbol="arrow",
+    mark_point_symbolsize=40,
+)
 line.render()
 ```
 ![line-demo](https://user-images.githubusercontent.com/19553554/35089954-49784dd8-fc73-11e7-8a5b-d9163857c4b1.png)
 
 ```python
 line = Line("折线图示例")
-line.add("商家A", attr, v1,
-            mark_point=["average", {
-                "coord": ["裤子", 10], "name": "这是我想要的第一个标记点"}])
-line.add("商家B", attr, v2, is_smooth=True,
-            mark_point=[{
-                "coord": ["袜子", 80], "name": "这是我想要的第二个标记点"}])
+line.add(
+    "商家A",
+    attr,
+    v1,
+    mark_point=["average", {"coord": ["裤子", 10], "name": "这是我想要的第一个标记点"}],
+)
+line.add(
+    "商家B",
+    attr,
+    v2,
+    is_smooth=True,
+    mark_point=[{"coord": ["袜子", 80], "name": "这是我想要的第二个标记点"}],
+)
 line.render()
 ```
 ![line-demo](https://user-images.githubusercontent.com/19553554/35089957-4af28598-fc73-11e7-967b-cb6a431ed542.gif)
@@ -1660,10 +1467,24 @@ line.render()
 
 ```python
 line = Line("折线图-面积图示例")
-line.add("商家A", attr, v1, is_fill=True, line_opacity=0.2,
-         area_opacity=0.4, symbol=None)
-line.add("商家B", attr, v2, is_fill=True, area_color='#000',
-         area_opacity=0.3, is_smooth=True)
+line.add(
+    "商家A",
+    attr,
+    v1,
+    is_fill=True,
+    line_opacity=0.2,
+    area_opacity=0.4,
+    symbol=None,
+)
+line.add(
+    "商家B",
+    attr,
+    v2,
+    is_fill=True,
+    area_color="#000",
+    area_opacity=0.3,
+    is_smooth=True,
+)
 line.render()
 ```
 ![line-demo](https://user-images.githubusercontent.com/19553554/35089973-53868fd8-fc73-11e7-8ff6-bfb452954267.png)
@@ -1681,8 +1502,12 @@ line.render()
 import math, random
 line = Line("折线图示例")
 line.add("商家A", attr, [math.log10(random.randint(1, 99999)) for _ in range(6)])
-line.add("商家B", attr, [math.log10(random.randint(1, 99999999)) for _ in range(6)],
-         yaxis_type="log")
+line.add(
+    "商家B",
+    attr,
+    [math.log10(random.randint(1, 99999999)) for _ in range(6)],
+    yaxis_type="log",
+)
 line.render()
 ```
 ![line-demo](https://user-images.githubusercontent.com/19553554/35089976-5473125e-fc73-11e7-809c-adbfe6834b61.png)
@@ -1693,11 +1518,21 @@ from pyecharts import Line
 
 attr = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 line = Line("折线图示例")
-line.add("最高气温", attr, [11, 11, 15, 13, 12, 13, 10],
-         mark_point=["max", "min"], mark_line=["average"])
-line.add("最低气温", attr, [1, -2, 2, 5, 3, 2, 0],
-         mark_point=["max", "min"],  mark_line=["average"],
-         yaxis_formatter="°C")
+line.add(
+    "最高气温",
+    attr,
+    [11, 11, 15, 13, 12, 13, 10],
+    mark_point=["max", "min"],
+    mark_line=["average"],
+)
+line.add(
+    "最低气温",
+    attr,
+    [1, -2, 2, 5, 3, 2, 0],
+    mark_point=["max", "min"],
+    mark_line=["average"],
+    yaxis_formatter="°C",
+)
 line.render()
 ```
 ![line-demo](https://user-images.githubusercontent.com/19553554/35089980-5649aed0-fc73-11e7-9e8f-01ed75ad7418.gif)
@@ -1732,8 +1567,14 @@ range_color = [
     '#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf',
     '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
 line3d = Line3D("3D 折线图示例", width=1200, height=600)
-line3d.add("", _data, is_visualmap=True, visual_range_color=range_color,
-           visual_range=[0, 30], grid3d_rotate_sensitivity=5)
+line3d.add(
+    "",
+    _data,
+    is_visualmap=True,
+    visual_range_color=range_color,
+    visual_range=[0, 30],
+    grid3d_rotate_sensitivity=5,
+)
 line3d.render()
 ```
 ![line3d-demo](https://user-images.githubusercontent.com/19553554/35081902-b0bed8c6-fc51-11e7-9b3a-1d138c4eba13.gif)
@@ -1754,9 +1595,15 @@ range_color = [
     '#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf',
     '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
 line3d = Line3D("3D 折线图示例", width=1200, height=600)
-line3d.add("", _data, is_visualmap=True, visual_range_color=range_color,
-           visual_range=[0, 30], is_grid3d_rotate=True,
-           grid3d_rotate_speed=180)
+line3d.add(
+    "",
+    _data,
+    is_visualmap=True,
+    visual_range_color=range_color,
+    visual_range=[0, 30],
+    is_grid3d_rotate=True,
+    grid3d_rotate_speed=180,
+)
 line3d.render()
 ```
 ![line3d-demo](https://user-images.githubusercontent.com/19553554/35081903-b3a4eada-fc51-11e7-97b1-33f1dd6ed79e.gif)
@@ -1907,8 +1754,14 @@ attr = [
     "福建", "山东", "北京", "上海", "甘肃", "新疆", "河南", "广西", "西藏"
     ]
 map = Map("Map 结合 VisualMap 示例", width=1200, height=600)
-map.add("", attr, value, maptype='china', is_visualmap=True,
-        visual_text_color='#000')
+map.add(
+    "",
+    attr,
+    value,
+    maptype="china",
+    is_visualmap=True,
+    visual_text_color="#000",
+)
 map.render()
 ```
 ![map-demo](https://user-images.githubusercontent.com/19553554/35082380-75e1b89c-fc54-11e7-8169-75884ffb67fb.gif)
@@ -1921,8 +1774,9 @@ from pyecharts import Map
 value = [20, 190, 253, 77, 65]
 attr = ['汕头市', '汕尾市', '揭阳市', '阳江市', '肇庆市']
 map = Map("广东地图示例", width=1200, height=600)
-map.add("", attr, value, maptype='广东', is_visualmap=True,
-        visual_text_color='#000')
+map.add(
+    "", attr, value, maptype="广东", is_visualmap=True, visual_text_color="#000"
+)
 map.render()
 ```
 ![map-demo](https://user-images.githubusercontent.com/19553554/35082381-786c8542-fc54-11e7-8886-5e4047fbeefd.gif)
@@ -1931,8 +1785,14 @@ map.render()
 value = [95.1, 23.2, 43.3, 66.4, 88.5]
 attr= ["China", "Canada", "Brazil", "Russia", "United States"]
 map = Map("世界地图示例", width=1200, height=600)
-map.add("", attr, value, maptype="world", is_visualmap=True,
-        visual_text_color='#000')
+map.add(
+    "",
+    attr,
+    value,
+    maptype="world",
+    is_visualmap=True,
+    visual_text_color="#000",
+)
 map.render()
 ```
 ![map-demo](https://user-images.githubusercontent.com/19553554/35082382-7a37df3e-fc54-11e7-93e8-f9c02e465a2f.gif)
@@ -1942,8 +1802,15 @@ map.render()
 value = [95.1, 23.2, 43.3, 66.4, 88.5]
 attr= ["China", "Canada", "Brazil", "Russia", "United States"]
 map = Map("世界地图示例", width=1200, height=600)
-map.add("", attr, value, maptype="world", is_visualmap=True,
-        visual_text_color='#000', , is_map_symbol_show=False)
+map.add(
+    "",
+    attr,
+    value,
+    maptype="world",
+    is_visualmap=True,
+    visual_text_color="#000",
+    is_map_symbol_show=False,
+)
 map.render()
 ```
 ![map-demo](https://user-images.githubusercontent.com/19553554/35082387-7d35893e-fc54-11e7-8482-60dc23d31836.png)
@@ -1964,8 +1831,15 @@ from echarts_united_kingdom_pypkg import NM_WESTMINSTER_2016_UK
 value = []
 attr = []
 map = Map('United Kingdom', width=800, height=600)
-map.add('', attr, value, maptype='英国选区2016', is_visualmap=True,
-        visual_text_color="#000", name_map=NM_WESTMINSTER_2016_UK)
+map.add(
+    "",
+    attr,
+    value,
+    maptype="英国选区2016",
+    is_visualmap=True,
+    visual_text_color="#000",
+    name_map=NM_WESTMINSTER_2016_UK,
+)
 map.render()
 ```
 ![map-demo](https://user-images.githubusercontent.com/4280312/36720626-803ff194-1ba0-11e8-998b-548afbedc18e.png)
@@ -2136,9 +2010,16 @@ from pyecharts import Pie
 attr = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
 v1 = [11, 12, 13, 10, 10, 10]
 pie = Pie("饼图-圆环图示例", title_pos='center')
-pie.add("", attr, v1, radius=[40, 75], label_text_color=None,
-        is_label_show=True, legend_orient='vertical',
-        legend_pos='left')
+pie.add(
+    "",
+    attr,
+    v1,
+    radius=[40, 75],
+    label_text_color=None,
+    is_label_show=True,
+    legend_orient="vertical",
+    legend_pos="left",
+)
 pie.render()
 ```
 ![pie-demo](https://user-images.githubusercontent.com/19553554/35089631-70b6e7de-fc72-11e7-838d-f8b238bbc03f.png)
@@ -2150,11 +2031,26 @@ attr = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
 v1 = [11, 12, 13, 10, 10, 10]
 v2 = [19, 21, 32, 20, 20, 33]
 pie = Pie("饼图-玫瑰图示例", title_pos='center', width=900)
-pie.add("商品A", attr, v1, center=[25, 50], is_random=True,
-        radius=[30, 75], rosetype='radius')
-pie.add("商品B", attr, v2, center=[75, 50], is_random=True,
-        radius=[30, 75], rosetype='area',
-        is_legend_show=False, is_label_show=True)
+pie.add(
+    "商品A",
+    attr,
+    v1,
+    center=[25, 50],
+    is_random=True,
+    radius=[30, 75],
+    rosetype="radius",
+)
+pie.add(
+    "商品B",
+    attr,
+    v2,
+    center=[75, 50],
+    is_random=True,
+    radius=[30, 75],
+    rosetype="area",
+    is_legend_show=False,
+    is_label_show=True,
+)
 pie.render()
 ```
 ![pie-demo](https://user-images.githubusercontent.com/19553554/35089635-72585da2-fc72-11e7-835d-c9b64750d19d.png)
@@ -2166,14 +2062,38 @@ from pyecharts import Pie
 
 attr = ['A', 'B', 'C', 'D', 'E', 'F']
 pie = Pie("饼图示例", width=1000, height=600)
-pie.add("", attr, [random.randint(0, 100) for _ in range(6)],
-        radius=[50, 55], center=[25, 50], is_random=True)
-pie.add("", attr, [random.randint(20, 100) for _ in range(6)],
-        radius=[0, 45], center=[25, 50], rosetype='area')
-pie.add("", attr, [random.randint(0, 100) for _ in range(6)],
-        radius=[50, 55], center=[65, 50], is_random=True)
-pie.add("", attr, [random.randint(20, 100) for _ in range(6)],
-        radius=[0, 45], center=[65, 50], rosetype='radius')
+pie.add(
+    "",
+    attr,
+    [random.randint(0, 100) for _ in range(6)],
+    radius=[50, 55],
+    center=[25, 50],
+    is_random=True,
+)
+pie.add(
+    "",
+    attr,
+    [random.randint(20, 100) for _ in range(6)],
+    radius=[0, 45],
+    center=[25, 50],
+    rosetype="area",
+)
+pie.add(
+    "",
+    attr,
+    [random.randint(0, 100) for _ in range(6)],
+    radius=[50, 55],
+    center=[65, 50],
+    is_random=True,
+)
+pie.add(
+    "",
+    attr,
+    [random.randint(20, 100) for _ in range(6)],
+    radius=[0, 45],
+    center=[65, 50],
+    rosetype="radius",
+)
 pie.render()
 ```
 ![pie-demo](https://user-images.githubusercontent.com/19553554/35089639-73f0e2c4-fc72-11e7-9fba-84376a94314c.gif)
@@ -2190,26 +2110,42 @@ pie_style = style.add(
     label_text_color=None
 )
 
-pie.add("", ["剧情", ""], [25, 75], center=[10, 30],
-        radius=[18, 24], **pie_style)
-pie.add("", ["奇幻", ""], [24, 76], center=[30, 30],
-        radius=[18, 24], **pie_style)
-pie.add("", ["爱情", ""], [14, 86], center=[50, 30],
-        radius=[18, 24], **pie_style)
-pie.add("", ["惊悚", ""], [11, 89], center=[70, 30],
-        radius=[18, 24], **pie_style)
-pie.add("", ["冒险", ""], [27, 73], center=[90, 30],
-        radius=[18, 24], **pie_style)
-pie.add("", ["动作", ""], [15, 85], center=[10, 70],
-        radius=[18, 24], **pie_style)
-pie.add("", ["喜剧", ""], [54, 46], center=[30, 70],
-        radius=[18, 24], **pie_style)
-pie.add("", ["科幻", ""], [26, 74], center=[50, 70],
-        radius=[18, 24], **pie_style)
-pie.add("", ["悬疑", ""], [25, 75], center=[70, 70],
-        radius=[18, 24], **pie_style)
-pie.add("", ["犯罪", ""], [28, 72], center=[90, 70],
-        radius=[18, 24], legend_top="center", **pie_style)
+pie.add(
+    "", ["剧情", ""], [25, 75], center=[10, 30], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["奇幻", ""], [24, 76], center=[30, 30], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["爱情", ""], [14, 86], center=[50, 30], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["惊悚", ""], [11, 89], center=[70, 30], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["冒险", ""], [27, 73], center=[90, 30], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["动作", ""], [15, 85], center=[10, 70], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["喜剧", ""], [54, 46], center=[30, 70], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["科幻", ""], [26, 74], center=[50, 70], radius=[18, 24], **pie_style
+)
+pie.add(
+    "", ["悬疑", ""], [25, 75], center=[70, 70], radius=[18, 24], **pie_style
+)
+pie.add(
+    "",
+    ["犯罪", ""],
+    [28, 72],
+    center=[90, 70],
+    radius=[18, 24],
+    legend_top="center",
+    **pie_style
+)
 pie.render()
 ```
 ![pie-demo](https://user-images.githubusercontent.com/19553554/35089644-76cbcb9e-fc72-11e7-8b9e-d5bebc78e8a1.gif)
@@ -2256,6 +2192,9 @@ add(name, data,
     数据堆叠，同个类目轴上系列配置相同的 stack 值可以堆叠放置
 * axis_range -> list  
     坐标轴刻度范围。默认值为 [None, None]。
+* angleaxis_label_interval -> int/str  
+    坐标轴刻度标签的显示间隔，在类目轴中有效。  
+    可以采用标签不重叠的策略间隔显示标签，即'auto'。可以设置成 0 强制显示所有标签。如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推。默认为 0。
 * is_angleaxis_show -> bool  
     是否显示极坐标系的角度轴，默认为 True
 * radiusaxis_z_index -> int
@@ -2273,9 +2212,15 @@ from pyecharts import Polar
 import random
 data = [(i, random.randint(1, 100)) for i in range(101)]
 polar = Polar("极坐标系-散点图示例")
-polar.add("", data, boundary_gap=False, type='scatter',
-          is_splitline_show=False,
-          area_color=None, is_axisline_show=True)
+polar.add(
+    "",
+    data,
+    boundary_gap=False,
+    type="scatter",
+    is_splitline_show=False,
+    area_color=None,
+    is_axisline_show=True,
+)
 polar.render()
 ```
 ![polar-demo](https://user-images.githubusercontent.com/19553554/35090448-aaf0d5a2-fc74-11e7-83c4-7b2f55090e98.png)
@@ -2320,12 +2265,27 @@ from pyecharts import Polar
 
 radius = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 polar = Polar("极坐标系-堆叠柱状图示例", width=1200, height=600)
-polar.add("A", [1, 2, 3, 4, 3, 5, 1], radius_data=radius,
-          type='barRadius', is_stack=True)
-polar.add("B", [2, 4, 6, 1, 2, 3, 1], radius_data=radius,
-          type='barRadius', is_stack=True)
-polar.add("C", [1, 2, 3, 4, 1, 2, 5], radius_data=radius,
-          type='barRadius', is_stack=True)
+polar.add(
+    "A",
+    [1, 2, 3, 4, 3, 5, 1],
+    radius_data=radius,
+    type="barRadius",
+    is_stack=True,
+)
+polar.add(
+    "B",
+    [2, 4, 6, 1, 2, 3, 1],
+    radius_data=radius,
+    type="barRadius",
+    is_stack=True,
+)
+polar.add(
+    "C",
+    [1, 2, 3, 4, 1, 2, 5],
+    radius_data=radius,
+    type="barRadius",
+    is_stack=True,
+)
 polar.render()
 ```
 ![polar-demo](https://user-images.githubusercontent.com/19553554/35090457-afc0658e-fc74-11e7-9c58-24c780436287.gif)
@@ -2335,12 +2295,27 @@ from pyecharts import Polar
 
 radius = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 polar = Polar("极坐标系-堆叠柱状图示例", width=1200, height=600)
-polar.add("", [1, 2, 3, 4, 3, 5, 1], radius_data=radius,
-          type='barAngle', is_stack=True)
-polar.add("", [2, 4, 6, 1, 2, 3, 1], radius_data=radius,
-          type='barAngle', is_stack=True)
-polar.add("", [1, 2, 3, 4, 1, 2, 5], radius_data=radius,
-          type='barAngle', is_stack=True)
+polar.add(
+    "",
+    [1, 2, 3, 4, 3, 5, 1],
+    radius_data=radius,
+    type="barAngle",
+    is_stack=True,
+)
+polar.add(
+    "",
+    [2, 4, 6, 1, 2, 3, 1],
+    radius_data=radius,
+    type="barAngle",
+    is_stack=True,
+)
+polar.add(
+    "",
+    [1, 2, 3, 4, 1, 2, 5],
+    radius_data=radius,
+    type="barAngle",
+    is_stack=True,
+)
 polar.render()
 ```
 ![polar-demo](https://user-images.githubusercontent.com/19553554/35090460-b11ab380-fc74-11e7-836c-2e8197e32723.png)
@@ -2560,9 +2535,16 @@ links = [
     {'source': 'category5', 'target': 'category6', 'value': 25}
 ]
 sankey = Sankey("桑基图示例", width=1200, height=600)
-sankey.add("sankey", nodes, links, line_opacity=0.2,
-           line_curve=0.5, line_color='source',
-           is_label_show=True, label_pos='right')
+sankey.add(
+    "sankey",
+    nodes,
+    links,
+    line_opacity=0.2,
+    line_curve=0.5,
+    line_color="source",
+    is_label_show=True,
+    label_pos="right",
+)
 sankey.render()
 ```
 ![sankey-demo](https://user-images.githubusercontent.com/19553554/35090344-5b701286-fc74-11e7-8c53-9a5d0e6797e5.png)
@@ -2577,9 +2559,16 @@ from pyecharts import Sankey
 with codecs.open(os.path.join("fixtures", "energy.json"), "r", encoding="utf-8") as f:
     j = json.load(f)
 sankey = Sankey("桑基图示例", width=1200, height=600)
-sankey.add("sankey", nodes=j['nodes'], links=j['links'],
-           line_opacity=0.2, line_curve=0.5, line_color='source',
-           is_label_show=True, label_pos='right')
+sankey.add(
+    "sankey",
+    nodes=j["nodes"],
+    links=j["links"],
+    line_opacity=0.2,
+    line_curve=0.5,
+    line_color="source",
+    is_label_show=True,
+    label_pos="right",
+)
 sankey.render()
 ```
 ![sankey-1](https://user-images.githubusercontent.com/19553554/35090346-5c79d1da-fc74-11e7-869b-7db7ecf42d9e.png)
@@ -2600,8 +2589,10 @@ add(name, x_axis, y_axis,
     x 坐标轴数据
 * y_axis -> list  
     y 坐标轴数据
-* extra_data -> int  
+* extra_data -> list[int]  
     第三维度数据，x 轴为第一个维度，y 轴为第二个维度。（可在 visualmap 中将视图元素映射到第三维度）
+* extra_name -> list[str]  
+    额外的数据项的名称，可以为每个数据点指定一个名称。
 * symbol_size -> int  
     标记图形大小，默认为 10
 
@@ -2630,8 +2621,14 @@ scatter.render()
 ```python
 scatter = Scatter("散点图示例")
 scatter.add("A", v1, v2)
-scatter.add("B", v1[::-1], v2, is_visualmap=True,
-            visual_type='size', visual_range_size=[20, 80])
+scatter.add(
+    "B",
+    v1[::-1],
+    v2,
+    is_visualmap=True,
+    visual_type="size",
+    visual_range_size=[20, 80],
+)
 scatter.render()
 ```
 ![scatter-demo](https://user-images.githubusercontent.com/19553554/35090360-62d94cfe-fc74-11e7-869f-ae3a3281f27b.gif)
@@ -2664,14 +2661,55 @@ x_lst = [v[0] for v in data]
 y_lst = [v[1] for v in data]
 extra_data = [v[2] for v in data]
 sc = Scatter()
-sc.add("scatter", x_lst, y_lst, extra_data=extra_data, is_visualmap=True,
-        visual_dimension=2, visual_orient='horizontal',
-        visual_type='size', visual_range=[254830, 1154605773],
-        visual_text_color='#000')
+sc.add(
+    "scatter",
+    x_lst,
+    y_lst,
+    extra_data=extra_data,
+    is_visualmap=True,
+    visual_dimension=2,
+    visual_orient="horizontal",
+    visual_type="size",
+    visual_range=[254830, 1154605773],
+    visual_text_color="#000",
+)
 sc.render()
 ```
 ![scatter-demo](https://user-images.githubusercontent.com/19553554/35090364-63f2ef78-fc74-11e7-950b-75ebd13e1f03.gif)
 
+**为每个坐标点指定一个名称，可用于 tooltip 展示**
+```python
+
+def custom_formatter(params):
+    return params.value[3]
+
+data = [
+    [28604, 77, 17096],
+    [31163, 77.4, 27662],
+    [1516, 68, 11546],
+]
+x_lst = [v[0] for v in data]
+y_lst = [v[1] for v in data]
+extra_data = [v[2] for v in data]
+extra_name = ["point A", "point B", "point C"]
+sc = Scatter()
+sc.add(
+    "scatter",
+    x_lst,
+    y_lst,
+    extra_data=extra_data,
+    extra_name=extra_name,
+    is_visualmap=True,
+    visual_dimension=2,
+    visual_orient="horizontal",
+    visual_type="size",
+    visual_range=[17000, 28000],
+    visual_text_color="#000",
+    tooltip_formatter=custom_formatter,
+)
+sc.render()
+```
+![scatter-demo](https://user-images.githubusercontent.com/19553554/43563684-e5e3cc34-9655-11e8-9792-0aa03a9233c6.gif)
 
 **Note：** 请配合 通用配置项 中的 Visualmap 使用
 
@@ -2749,6 +2787,7 @@ scatter3D.render()
 
 ## ThemeRiver（主题河流图）
 > 主题河流图是一种特殊的流图, 它主要用来表示事件或主题等在一段时间内的变化。
+
 ThemeRiver.add() 方法签名
 ```python
 add(name, data)
@@ -2807,8 +2846,288 @@ tr.render()
 **Note：** 可以看到，每个数据项中的第三个数值就是该项的种类，而种类可以在 `add()` 第一个参数指定。
 
 
+## Tree（树图）
+> 树图主要用来可视化树形数据结构，是一种特殊的层次类型，具有唯一的根节点，左子树，和右子树。
+
+Tree.add() 方法签名
+```python
+add(name, data,
+    tree_layout="orthogonal",
+    tree_symbol="emptyCircle",
+    tree_symbol_size=7,
+    tree_orient="LR",
+    tree_top="12%",
+    tree_left="12%",
+    tree_bottom="12%",
+    tree_right="12%",
+    tree_collapse_interval=0,
+    tree_label_position="left",
+    tree_label_vertical_align="middle",
+    tree_label_align="right",
+    tree_label_text_size=12,
+    tree_label_rotate=0,
+    tree_leaves_position="right",
+    tree_leaves_vertical_align="middle",
+    tree_leaves_align="left",
+    tree_leaves_text_size=12,
+    tree_leaves_rotate=0,
+    **kwargs
+    )
+```
+* name -> str  
+    系列名称，用于 tooltip 的显示，legend 的图例筛选。
+* data -> list  
+    树图的数据项是 **一棵树**，每个节点包括`value`（可选）, `name`, `children`（也是树，可选）如下所示
+    ```
+    [
+        {
+            value: 1212,    # 数值
+            # 子节点
+            children: [
+                {
+                    # 子节点数值
+                    value: 2323,
+                    # 子节点名
+                    name: 'description of this node',
+                    children: [...],
+                },
+                {
+                    value: 4545,
+                    name: 'description of this node',
+                    children: [
+                        {
+                            value: 5656,
+                            name: 'description of this node',
+                            children: [...]
+                        },
+                        ...
+                    ]
+                }
+            ]
+        },
+        ...
+    ]
+    ```
+* tree_layout -> str  
+    树图的布局，有 正交 和 径向 两种。这里的 正交布局 就是我们通常所说的水平 和 垂直 方向，对应的参数取值为 'orthogonal' 。而 径向布局 是指以根节点为圆心，每一层节点为环，一层层向外发散绘制而成的布局，对应的参数取值为 'radial' 。默认为 “orthogonal”。
+* tree_symbol -> str  
+    标记的图形。ECharts 提供的标记类型包括 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', 'none'。默认为 “emptyCircle”。
+* tree_symbol_size -> int/list  
+    标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为 20，高为 10。默认为 7。
+* tree_orient -> str  
+    树图中 正交布局 的方向，也就是说只有在 layout = 'orthogonal' 的时候，该配置项才生效。对应有 水平 方向的 从左到右，从右到左；以及垂直方向的从上到下，从下到上。取值分别为 'LR' , 'RL', 'TB', 'BT'。注意，之前的配置项值 'horizontal' 等同于 'LR'， 'vertical' 等同于 'TB'。默认为 “LR”
+* tree_top -> str  
+    tree 组件离容器顶部的距离。可以是像 20 这样的具体像素值，可以是像 '20%' 这样相对于容器高宽的百分比。默认为 “12%”
+* tree_left -> str  
+    tree 组件离容器左侧的距离。可以是像 20 这样的具体像素值，可以是像 '20%' 这样相对于容器高宽的百分比。默认为 “12%”
+* tree_bottom -> str  
+    tree 组件离容器底部的距离。可以是像 20 这样的具体像素值，可以是像 '20%' 这样相对于容器高宽的百分比。默认为 “12%”
+* tree_right -> str  
+    tree 组件离容器右侧的距离。可以是像 20 这样的具体像素值，可以是像 '20%' 这样相对于容器高宽的百分比。默认为 “12%”
+* tree_collapse_interval -> int  
+    折叠节点间隔，当节点过多时可以解决节点显示过杂间隔。默认为 0
+* tree_label_position -> str/list  
+    标签的位置。默认为 “left”
+    ```
+    * [x, y]
+    通过相对的百分比或者绝对像素值表示标签相对于图形包围盒左上角的位置。 示例：
+    // 绝对的像素值
+    position: [10, 10],
+    // 相对的百分比
+    position: ['50%', '50%']
+    * 'top'
+    * 'left'
+    * 'right'
+    * 'bottom'
+    * 'inside'
+    * 'insideLeft'
+    * 'insideRight'
+    * 'insideTop'
+    * 'insideBottom'
+    * 'insideTopLeft'
+    * 'insideBottomLeft'
+    * 'insideTopRight'
+    * 'insideBottomRight'
+    ```
+* tree_label_vertical_align -> str  
+    父节点文字垂直对齐方式，默认自动。可选：'top'，'middle'，'bottom'
+* tree_label_align -> str  
+    父节点文字水平对齐方式，默认自动。可选：'left'，'center'，'right'
+* tree_label_text_size -> int  
+    父节点文字的字体大小
+* tree_label_rotate -> int  
+    父节点标签旋转。从 -90 度到 90 度。正值是逆时针。默认为 0
+* tree_leaves_position -> str  
+    距离图形元素的距离。当 position 为字符描述值（如 'top'、'insideRight'）时候有效。参加 tree_label_position
+* tree_leaves_vertical_align -> str  
+    叶节点文字垂直对齐方式，默认自动。可选：'top'，'middle'，'bottom'
+* tree_leaves_align -> str  
+    叶节点文字水平对齐方式，默认自动。可选：'left'，'center'，'right'
+* tree_leaves_text_size -> int  
+    叶节点文字的字体大小
+* tree_leaves_rotate -> int  
+    叶节点标签旋转。从 -90 度到 90 度。正值是逆时针。默认为 0
+
+**简单示例**
+
+首先假设你有一份数据需要生产树图，大概长这样
+```
+
+     |----B     |----E----|----I
+     |          |
+     |----C-----|----F         |----J
+A----|                         |
+     |----D-----|----G----|----|----K
+                |
+                |----H
+```
+你需要来编写成 JSON 数据，节点都是以 {name, children} 为基础的递归嵌套模式，如下
+```json
+data = [
+    {
+        "children": [
+            {
+                "children": [],
+                "name": "B"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "I"
+                            }
+                        ],
+                        "name": "E"
+                    },
+                    {
+                        "children": [],
+                        "name": "F"
+                    }
+                ],
+                "name": "C"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "J"
+                            },
+                            {
+                                "children": [],
+                                "name": "K"
+                            }
+                        ],
+                        "name": "G"
+                    },
+                    {
+                        "children": [],
+                        "name": "H"
+                    }
+                ],
+                "name": "D"
+            }
+        ],
+        "name": "A"
+    }
+]
+```
+生成树图
+```python
+from pyecharts import Tree
+
+tree = Tree("树图示例")
+tree.add("", data)
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004354-fc603b0a-9e93-11e8-9437-778a1e4a3001.png)
+
+**使用 tree_collapse_interva 控制折叠节点间隔**
+
+当节点过多时可以解决节点显示过杂间隔。以官方提供的 flare.json 数据为例，tree_collapse_interval 为 0 时（表示全部节点均不折叠），文字都挤在一起了
+```python
+import os
+import json
+import codecs
+
+from pyecharts import Tree
+
+with codecs.open(
+    os.path.join("fixtures", "flare.json"), "r", encoding="utf-8"
+) as f:
+    j = json.load(f)
+tree = Tree(width=1200, height=800)
+tree.add("", data)
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004551-a41321f8-9e96-11e8-9837-ddf930394240.png)
+
+设置 tree_collapse_interval 为 2（表示间隔折叠节点），图明显就好看多了
+```python
+import os
+import json
+import codecs
+
+from pyecharts import Tree
+
+with codecs.open(
+    os.path.join("fixtures", "flare.json"), "r", encoding="utf-8"
+) as f:
+    j = json.load(f)
+data = [j]
+
+tree = Tree(width=1200, height=800)
+tree.add("", data, tree_collapse_interval=2)
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004598-5636d74e-9e97-11e8-8a5c-92de6278880d.gif)
+
+**指定方向，从右到左**
+```python
+tree = Tree(width=1200, height=800)
+tree.add("", data, tree_orient="RL", tree_collapse_interval=2)
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004607-8cd0ff3c-9e97-11e8-97b1-c4bd343ce49c.png)
+
+**指定方向，从上到下**
+```python
+tree = Tree(width=1200, height=800)
+tree.add(
+    "",
+    data,
+    tree_collapse_interval=2,
+    tree_orient="TB",
+    tree_label_rotate=-90,
+    tree_leaves_rotate=-90
+)
+tree.render
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004803-5537bada-9e9b-11e8-83f1-4c8b4df81d1e.png)
+
+**指定布局** 
+```python
+tree = Tree(width=1200, height=800)
+tree.add("", data, tree_collapse_interval=2, tree_layout="radial")
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004643-15e284ee-9e98-11e8-93f6-8103c3af42f4.png)
+
+**调整容器布局**
+```python
+tree = Tree(width=1200, height=800)
+tree.add("", data, tree_collapse_interval=2, tree_top="15%", tree_right="20%")
+tree.render()
+```
+![tree-demo](https://user-images.githubusercontent.com/19553554/44004651-399e4ab2-9e98-11e8-93b5-8ab6e9926408.png)
+
+
 ## TreeMap（矩形树图）
 > 矩形树图是一种常见的表达『层级数据』『树状数据』的可视化形式。它主要用面积的方式，便于突出展现出『树』的各层级中重要的节点。
+
 TreeMap.add() 方法签名
 ```python
 add(name, attr, value,
@@ -3787,6 +4106,43 @@ page.render()
 ```
 ![page-demo](https://user-images.githubusercontent.com/19553554/35104305-66f2a766-fca3-11e7-8ffd-8e85911fdea5.gif)
 
+**Page 类的额外的文本标签，由各图形本身携带**
+```python
+from pyecharts import *
+
+page = Page()
+line = Line("折线图示例", extra_html_text_label=["LINE TEXT LABEL", "color:red"])
+line.add(
+    "最高气温",
+    WEEK,
+    [11, 11, 15, 13, 12, 13, 10],
+    mark_point=["max", "min"],
+    mark_line=["average"],
+)
+page.add(line)
+
+v1 = [11, 12, 13, 10, 10, 10]
+pie = Pie("饼图-圆环图示例", title_pos="center", extra_html_text_label=["PIE TEXT LABEL"])
+pie.add(
+    "",
+    CLOTHES,
+    v1,
+    radius=[40, 75],
+    label_text_color=None,
+    is_label_show=True,
+    legend_orient="vertical",
+    legend_pos="left",
+)
+page.add(pie)
+
+v2 = [10, 25, 8, 60, 20, 80]
+bar = Bar("柱状图", extra_html_text_label=["BAR TEXT LABEL"])
+bar.add("商家B", CLOTHES, v2)
+page.add(bar)
+page.render()
+```
+![page-demo](https://user-images.githubusercontent.com/19553554/43813125-e4ef7e2c-9af6-11e8-96a0-a6b53b0c136f.gif)
+
 
 ## Timeline：提供时间线轮播多张图
 Timeline 类的使用：
@@ -3884,24 +4240,54 @@ from pyecharts import Pie, Timeline
 
 attr = ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
 pie_1 = Pie("2012 年销量比例", "数据纯属虚构")
-pie_1.add("秋季", attr, [randint(10, 100) for _ in range(6)],
-          is_label_show=True, radius=[30, 55], rosetype='radius')
+pie_1.add(
+    "秋季",
+    attr,
+    [randint(10, 100) for _ in range(6)],
+    is_label_show=True,
+    radius=[30, 55],
+    rosetype="radius",
+)
 
 pie_2 = Pie("2013 年销量比例", "数据纯属虚构")
-pie_2.add("秋季", attr, [randint(10, 100) for _ in range(6)],
-          is_label_show=True, radius=[30, 55], rosetype='radius')
+pie_2.add(
+    "秋季",
+    attr,
+    [randint(10, 100) for _ in range(6)],
+    is_label_show=True,
+    radius=[30, 55],
+    rosetype="radius",
+)
 
 pie_3 = Pie("2014 年销量比例", "数据纯属虚构")
-pie_3.add("秋季", attr, [randint(10, 100) for _ in range(6)],
-          is_label_show=True, radius=[30, 55], rosetype='radius')
+pie_3.add(
+    "秋季",
+    attr,
+    [randint(10, 100) for _ in range(6)],
+    is_label_show=True,
+    radius=[30, 55],
+    rosetype="radius",
+)
 
 pie_4 = Pie("2015 年销量比例", "数据纯属虚构")
-pie_4.add("秋季", attr, [randint(10, 100) for _ in range(6)],
-          is_label_show=True, radius=[30, 55], rosetype='radius')
+pie_4.add(
+    "秋季",
+    attr,
+    [randint(10, 100) for _ in range(6)],
+    is_label_show=True,
+    radius=[30, 55],
+    rosetype="radius",
+)
 
 pie_5 = Pie("2016 年销量比例", "数据纯属虚构")
-pie_5.add("秋季", attr, [randint(10, 100) for _ in range(6)],
-          is_label_show=True, radius=[30, 55], rosetype='radius')
+pie_5.add(
+    "秋季",
+    attr,
+    [randint(10, 100) for _ in range(6)],
+    is_label_show=True,
+    radius=[30, 55],
+    rosetype="radius",
+)
 
 timeline = Timeline(is_auto_play=True, timeline_bottom=0)
 timeline.add(pie_1, '2012 年')

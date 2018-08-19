@@ -26,6 +26,7 @@ class Chart(Base):
         background_color=None,
         page_title=constants.PAGE_TITLE,
         renderer=constants.CANVAS_RENDERER,
+        extra_html_text_label=None,
     ):
         """
 
@@ -58,12 +59,16 @@ class Chart(Base):
         :param renderer:
             指定使用渲染方式，有 'svg' 和 'canvas' 可选，默认为 'canvas'。
             3D 图仅能使用 'canvas'。
+        :param extra_html_text_label:
+            额外的 HTML 文本标签，(<p> 标签)。类型为 list，list[0] 为文本内容，
+            list[1] 为字体风格样式（选填）。如 ["this is a p label", "color:red"]
         """
         super(Chart, self).__init__(
             width=width,
             height=height,
             renderer=renderer,
             page_title=page_title,
+            extra_html_text_label=extra_html_text_label,
         )
         self._colorlst = [
             "#c23531",
@@ -129,6 +134,7 @@ class Chart(Base):
         self,
         angle_data=None,
         angle_range=None,
+        angleaxis_label_interval=None,
         area_color=None,
         area_opacity=None,
         axis_range=None,
@@ -138,6 +144,7 @@ class Chart(Base):
         center=None,
         calendar_date_range=None,
         calendar_cell_size=None,
+        coordinate_region=None,
         datazoom_type=None,
         datazoom_range=None,
         datazoom_orient=None,
@@ -152,6 +159,7 @@ class Chart(Base):
         effect_period=None,
         effect_scale=None,
         extra_data=None,
+        extra_name=None,
         geo_emphasis_color=None,
         geo_normal_color=None,
         geo_cities_coords=None,
@@ -272,6 +280,25 @@ class Chart(Base):
         tooltip_background_color=None,
         tooltip_border_color=None,
         tooltip_border_width=None,
+        tree_layout=None,
+        tree_symbol=None,
+        tree_symbol_size=None,
+        tree_orient=None,
+        tree_top=None,
+        tree_left=None,
+        tree_bottom=None,
+        tree_right=None,
+        tree_collapse_interval=None,
+        tree_label_position=None,
+        tree_label_vertical_align=None,
+        tree_label_align=None,
+        tree_label_text_size=None,
+        tree_label_rotate=None,
+        tree_leaves_position=None,
+        tree_leaves_vertical_align=None,
+        tree_leaves_align=None,
+        tree_leaves_text_size=None,
+        tree_leaves_rotate=None,
         treemap_left_depth=None,
         treemap_drilldown_icon=None,
         treemap_visible_min=None,
@@ -303,6 +330,8 @@ class Chart(Base):
         xaxis_type=None,
         xaxis_label_textsize=None,
         xaxis_label_textcolor=None,
+        xaxis_line_color=None,
+        xaxis_line_width=None,
         xaxis3d_name=None,
         xaxis3d_name_size=None,
         xaxis3d_name_gap=None,
@@ -325,6 +354,8 @@ class Chart(Base):
         yaxis_name=None,
         yaxis_label_textsize=None,
         yaxis_label_textcolor=None,
+        yaxis_line_color=None,
+        yaxis_line_width=None,
         yaxis3d_name=None,
         yaxis3d_name_size=None,
         yaxis3d_name_gap=None,
